@@ -4,32 +4,28 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#011331',
-        /* justifyContent: 'flex-start', */
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
         padding: 40,
-        /* height: '100%', */
+        height: '100%',
     },
     title: {
+        paddingTop: 10,
+        paddingBottom: 10,
         fontFamily: 'PollerOne_400Regular',
-        textAlign: 'center',
-        fontSize: 40,
+        textAlign: 'left',
+        fontSize: 20,
         color: '#fff',
-        marginBottom: 30,
     },
-
-    movieTitle: {
+    itemDetails: {
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
+    content: {
+        paddingLeft: 20,
         fontFamily: 'PollerOne_400Regular',
-        padding: 20,
         textAlign: 'left',
         fontSize: 15,
-        color: '#fff',
-    },
-
-    movieInfo: {
-        fontFamily: 'PollerOne_400Regular',
-        paddingLeft: 40,
-        textAlign: 'left',
-        fontSize: 10,
         color: '#fff',
     },
     button: {

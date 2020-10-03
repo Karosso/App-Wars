@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, ScrollView, TouchableOpacity, GestureResponderEvent } from 'react-native';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../../services/api';
 
 import styles from './styles';
@@ -23,9 +23,10 @@ function Movies() {
         })
     }, []);
 
-    function handleNavigationToMovieDetailsPage(){
-        
-        navigation.navigate('Home');
+    function handleNavigationToMovieDetailsPage(item){
+        // console.log("item: ", item.title);
+
+        navigation.navigate('MovieDetails', item);
     }
 
     return (
@@ -34,8 +35,8 @@ function Movies() {
 
             <ScrollView>
                 {moviesList.map((movie) => (
-                    <TouchableOpacity>
-                        <Text onPress={handleNavigationToMovieDetailsPage} style={styles.movieTitle} key={movie.episode_id}>
+                    <TouchableOpacity style={styles.button} key={movie.episode_id} onPress={ ()=>{handleNavigationToMovieDetailsPage(movie)}}>
+                        <Text style={styles.movieTitle} >
                             {movie.episode_id}  {'> '} {movie.title}    
                         </Text>
 

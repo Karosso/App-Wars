@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from '../pages/Home';
 import Movies from '../pages/Movies';
-import Items from '../pages/Items';
+import MovieDetails from '../pages/MovieDetails';
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -14,7 +14,7 @@ function AppStack() {
             <Navigator screenOptions={{ headerShown: false }}>
                 <Screen name="Home" component={Home}/>
                 <Screen name="Movies" component={Movies}/>
-                <Screen name="Items" component={Items}/>
+                <Screen name="MovieDetails" component={MovieDetails}/>
             </Navigator>
         </NavigationContainer>
     )
