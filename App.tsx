@@ -1,21 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { AppLoading } from 'expo';
+
+import { useFonts, PollerOne_400Regular } from '@expo-google-fonts/poller-one';
+
+import AppStack from './src/routes/AppStack';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>May the Force be with you!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  let [fontsLoaded] = useFonts({
+    PollerOne_400Regular,
+  });
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <> 
+        <AppStack />
+        <StatusBar style="light" />
+      </>
+    );
+  }
+
+  
+}
