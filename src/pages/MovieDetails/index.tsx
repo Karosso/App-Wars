@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import api from '../../services/api';
 
 import styles from './styles';
 
@@ -12,24 +13,85 @@ function MovieDetails ({ route }) {
 
     const movie = route.params;
 
+    const [charactersList, setCharactersList] = useState([]);
+
+    function getList(url: string, temp: []){
+        api.get(url).then(response => {
+            const item = response.data.results;
+
+            item.forEach(element => {
+                temp.push(element);
+            });
+
+            if (response.data.next !==null) {
+                getList(response.data.next, temp);
+            }else{
+                setCharactersList(temp);
+                // console.log(charactersList);
+            }
+        })
+    }
+
+    useEffect(() => {
+        var temp = [];
+        
+        getList("https://swapi.dev/api/people", temp);
+        
+    }, []);
+
+
     function handleNavigationToCharacterDetailsPage(item){
+        // console.log(item.split("/")[5]-1);
+
         console.log(item);
     }
+
+    const [planetsList, setPlanetsList] = useState([]);
+    useEffect(() => {
+        api.get('planets').then(response => {
+            const planets = response.data.results;
+            setPlanetsList(planets);
+        })
+    }, []);
 
     function handleNavigationToPlanetDetailsPage(item){
-        console.log(item);
+        console.log(item.name);
     }
+
+    const [starshipsList, setStarshipsList] = useState([]);
+    useEffect(() => {
+        api.get('starships').then(response => {
+            const starships = response.data.results;
+            setStarshipsList(starships);
+        })
+    }, []);
 
     function handleNavigationToStarshipsDetailsPage(item){
-        console.log(item);
+        console.log(item.name);
     }
+
+    const [vehiclesList, setVehiclesList] = useState([]);
+    useEffect(() => {
+        api.get('vehicles').then(response => {
+            const vehicles = response.data.results;
+            setVehiclesList(vehicles);
+        })
+    }, []);
 
     function handleNavigationToVehiclesDetailsPage(item){
-        console.log(item);
+        console.log(item.name);
     }
 
+    const [speciesList, setSpeciesList] = useState([]);
+    useEffect(() => {
+        api.get('species').then(response => {
+            const species = response.data.results;
+            setSpeciesList(species);
+        })
+    }, []);
+
     function handleNavigationToSpeciesDetailsPage(item){
-        console.log(item);
+        console.log(item.name);
     }
 
     return (
@@ -45,10 +107,10 @@ function MovieDetails ({ route }) {
 
                 <Text style={styles.title}>{'Characters: '}</Text>
                 {movie.characters.map((character) => (
-                    <TouchableOpacity style={styles.button} key={movie.characters.id} onPress={ ()=>{handleNavigationToCharacterDetailsPage(character)}}>
-                        <Text style={styles.content} >{character}</Text>
+                    <TouchableOpacity style={styles.button} key={character.split("/")[5]-1} onPress={ ()=>{handleNavigationToCharacterDetailsPage(charactersList[character.split("/")[5]-1])}}>
+                        <Text style={styles.content} >{'> '}{charactersList[character.split("/")[5]-1].name}</Text> 
                     </TouchableOpacity>
-                    
+                
                 ))}
 
                 <Text style={styles.title}>{'Planets: '}</Text>

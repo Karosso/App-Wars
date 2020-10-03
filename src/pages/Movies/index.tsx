@@ -8,12 +8,13 @@ import styles from './styles';
 
 function Movies() {
     const { navigate } = useNavigation();
-    const [moviesList, setMoviesList] = useState([]);
+    
 
     const navigation = useNavigation();
 
+    const [moviesList, setMoviesList] = useState([]);
     useEffect(() => {
-        api.get('films').then(response => {
+        api.get('https://swapi.dev/api/films').then(response => {
 
             const movies = response.data.results;
             setMoviesList(movies);
