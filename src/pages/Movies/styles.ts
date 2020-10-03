@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 40,
         color: '#fff',
-        marginBottom: 40,
+        marginBottom: 30,
     },
 
     movieTitle: {
@@ -22,6 +22,14 @@ const styles = StyleSheet.create({
         padding: 20,
         textAlign: 'left',
         fontSize: 15,
+        color: '#fff',
+    },
+
+    movieInfo: {
+        fontFamily: 'PollerOne_400Regular',
+        paddingLeft: 40,
+        textAlign: 'left',
+        fontSize: 10,
         color: '#fff',
     },
 });

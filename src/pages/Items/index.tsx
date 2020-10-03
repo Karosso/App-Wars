@@ -7,7 +7,8 @@ function Items() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Items Work's!!!</Text>
+            <Text style={styles.title}>Episode: 4</Text>
+            <Text style={styles.title}>Title: A New Hope</Text>
         </View>
     );
 }
