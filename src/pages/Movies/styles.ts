@@ -4,18 +4,25 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#011331',
-        justifyContent: 'center',
-        alignItems: 'center',
+        /* justifyContent: 'flex-start', */
+        alignItems: 'flex-start',
         padding: 40,
-        height: '100%',
+        /* height: '100%', */
     },
     title: {
         fontFamily: 'PollerOne_400Regular',
         textAlign: 'center',
-        fontSize: 60,
+        fontSize: 40,
         color: '#fff',
-        marginTop: -100,
-        marginBottom: 130,
+        marginBottom: 40,
+    },
+
+    movieTitle: {
+        fontFamily: 'PollerOne_400Regular',
+        padding: 20,
+        textAlign: 'left',
+        fontSize: 15,
+        color: '#fff',
     },
 });
 
