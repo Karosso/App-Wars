@@ -14,81 +14,154 @@ function MovieDetails ({ route }) {
     const movie = route.params;
 
     const [charactersList, setCharactersList] = useState([]);
+    const [planetsList, setPlanetsList] = useState([]);
+    const [starshipsList, setStarshipsList] = useState([]);
+    const [vehiclesList, setVehiclesList] = useState([]);
+    const [speciesList, setSpeciesList] = useState([]);
 
-    function getList(url: string, temp: []){
-        api.get(url).then(response => {
-            const item = response.data.results;
+    async function getCharactersList(url: string, temp: []){
+        try {
+            await api.get(url).then(response => {
+                const item = response.data.results;
+    
+                item.forEach(element => {
+                    temp.push(element);
+                });
+    
+                if (response.data.next !== null) {
+                    getCharactersList(response.data.next, temp);
+                }else{
+                    setCharactersList(temp);
+                }
 
-            item.forEach(element => {
-                temp.push(element);
-            });
-
-            if (response.data.next !==null) {
-                getList(response.data.next, temp);
-            }else{
-                setCharactersList(temp);
-                // console.log(charactersList);
-            }
-        })
+            })
+        } catch {
+            console.log('getCharactersList Error');
+        }
     }
 
+    async function getPlanetsList(url: string, temp: []){
+        try {
+            await api.get(url).then(response => {
+                const item = response.data.results;
+    
+                item.forEach(element => {
+                    temp.push(element);
+                });
+    
+                if (response.data.next !== null) {
+                    getPlanetsList(response.data.next, temp);
+                }else{
+                    setPlanetsList(temp);
+                    // console.log('planetsList', planetsList);
+                }
+            })
+        } catch {
+            console.log('getPlanetsList Error');
+        }
+    }
+
+    async function getStarshipsList(url: string, temp: []){
+        try {
+            await api.get(url).then(response => {
+                const item = response.data.results;
+    
+                item.forEach(element => {
+                    temp.push(element);
+                });
+    
+                if (response.data.next !== null) {
+                    getStarshipsList(response.data.next, temp);
+                }else{
+                    setStarshipsList(temp);
+                    // console.log('StarshipsList', starshipsList);
+                }
+            })
+        } catch {
+            console.log('getStarshipsList Error');
+        }
+    }
+
+    async function getVehiclesList(url: string, temp: []){
+        try {
+            await api.get(url).then(response => {
+                const item = response.data.results;
+    
+                item.forEach(element => {
+                    temp.push(element);
+                });
+    
+                if (response.data.next !== null) {
+                    getVehiclesList(response.data.next, temp);
+                }else{
+                    setVehiclesList(temp);
+                    // console.log('getVehiclesList', vehiclesList);
+                }
+            })
+        } catch {
+            console.log('getVehiclesList Error');
+        }
+    }
+
+    async function getSpeciesList(url: string, temp: []){
+        try {
+            await api.get(url).then(response => {
+                const item = response.data.results;
+    
+                item.forEach(element => {
+                    temp.push(element);
+                });
+    
+                if (response.data.next !== null) {
+                    getSpeciesList(response.data.next, temp);
+                }else{
+                    setSpeciesList(temp);
+                    // console.log('getSpeciesList', speciesList);
+                }
+            })
+        } catch {
+            console.log('getSpeciesList Error');
+        }
+    }
+
+
+
     useEffect(() => {
-        var temp = [];
+        var charactersListTemp = [];
+        var planetsListTemp = [];
+        var starshipsListTemp = [];
+        var vehiclesListTemp = [];
+        var speciesListTemp = [];
         
-        getList("https://swapi.dev/api/people", temp);
+        getCharactersList("https://swapi.dev/api/people", charactersListTemp);
+        getPlanetsList("https://swapi.dev/api/planets", planetsListTemp);
+        getStarshipsList("https://swapi.dev/api/starships", starshipsListTemp);
+        getVehiclesList("https://swapi.dev/api/vehicles", vehiclesListTemp);
+        getSpeciesList("http://swapi.dev/api/species/", speciesListTemp);
         
     }, []);
 
 
     function handleNavigationToCharacterDetailsPage(item){
-        // console.log(item.split("/")[5]-1);
-
-        console.log(item);
+        console.log(item.name);
     }
 
-    const [planetsList, setPlanetsList] = useState([]);
-    useEffect(() => {
-        api.get('planets').then(response => {
-            const planets = response.data.results;
-            setPlanetsList(planets);
-        })
-    }, []);
+    
 
     function handleNavigationToPlanetDetailsPage(item){
         console.log(item.name);
     }
 
-    const [starshipsList, setStarshipsList] = useState([]);
-    useEffect(() => {
-        api.get('starships').then(response => {
-            const starships = response.data.results;
-            setStarshipsList(starships);
-        })
-    }, []);
 
     function handleNavigationToStarshipsDetailsPage(item){
         console.log(item.name);
     }
 
-    const [vehiclesList, setVehiclesList] = useState([]);
-    useEffect(() => {
-        api.get('vehicles').then(response => {
-            const vehicles = response.data.results;
-            setVehiclesList(vehicles);
-        })
-    }, []);
 
     function handleNavigationToVehiclesDetailsPage(item){
         console.log(item.name);
     }
 
-    const [speciesList, setSpeciesList] = useState([]);
-    useEffect(() => {
-        api.get('species').then(response => {
-            const species = response.data.results;
-            setSpeciesList(species);
-        })
-    }, []);
 
     function handleNavigationToSpeciesDetailsPage(item){
         console.log(item.name);
@@ -107,40 +180,80 @@ function MovieDetails ({ route }) {
 
                 <Text style={styles.title}>{'Characters: '}</Text>
                 {movie.characters.map((character) => (
-                    <TouchableOpacity style={styles.button} key={character.split("/")[5]-1} onPress={ ()=>{handleNavigationToCharacterDetailsPage(charactersList[character.split("/")[5]-1])}}>
-                        <Text style={styles.content} >{'> '}{charactersList[character.split("/")[5]-1].name}</Text> 
+                    <TouchableOpacity style={styles.button} 
+                        key={movie.characters.id} 
+                        disabled={!charactersList[character.split("/")[5]-1]}
+                        onPress={ ()=>{handleNavigationToCharacterDetailsPage(charactersList[character.split("/")[5]-1])}}>
+                        <Text style={styles.content} >
+                            {'> '}
+                            {charactersList[character.split("/")[5]-1] 
+                                ? charactersList[character.split("/")[5]-1].name 
+                                : 'Loading...' }
+                        </Text> 
                     </TouchableOpacity>
                 
                 ))}
 
                 <Text style={styles.title}>{'Planets: '}</Text>
                 {movie.planets.map((planet) => (
-                    <TouchableOpacity style={styles.button} key={movie.planets.id} onPress={ ()=>{handleNavigationToPlanetDetailsPage(planet)}}>
-                        <Text style={styles.content} >{planet}</Text>
+                    <TouchableOpacity style={styles.button} 
+                        key={movie.planets.id} 
+                        disabled={!planetsList[planet.split("/")[5]-1]}
+                        onPress={ ()=>{handleNavigationToPlanetDetailsPage(planetsList[planet.split("/")[5]-1])}}>
+                        <Text style={styles.content} >
+                            {'> '}
+                            {planetsList[planet.split("/")[5]-1] 
+                                ? planetsList[planet.split("/")[5]-1].name 
+                                : 'Loading...' }
+                        </Text>
                     </TouchableOpacity>
                     
                 ))}
 
                 <Text style={styles.title}>{'Starships: '}</Text>
                 {movie.starships.map((starship) => (
-                    <TouchableOpacity style={styles.button} key={movie.starships.id} onPress={ ()=>{handleNavigationToStarshipsDetailsPage(starship)}}>
-                        <Text style={styles.content} >{starship}</Text>
+                    <TouchableOpacity style={styles.button} 
+                    key={movie.starships.id} 
+                    disabled={!starshipsList[starship.split("/")[5]-1]}
+                    onPress={ ()=>{handleNavigationToStarshipsDetailsPage(starshipsList[starship.split("/")[5]-1])}}>
+                        <Text style={styles.content} >
+                            {'> '}
+                            {starshipsList[starship.split("/")[5]-1] 
+                                ? starshipsList[starship.split("/")[5]-1].name 
+                                : 'Loading...' }
+                        </Text>
                     </TouchableOpacity>
                     
                 ))}
 
                 <Text style={styles.title}>{'Vehicles: '}</Text>
                 {movie.vehicles.map((vehicle) => (
-                    <TouchableOpacity style={styles.button} key={movie.vehicles.id} onPress={ ()=>{handleNavigationToVehiclesDetailsPage(vehicle)}}>
-                        <Text style={styles.content} >{vehicle}</Text>
+                    <TouchableOpacity style={styles.button} 
+                    key={movie.vehicles.id} 
+                    disabled={!vehiclesList[vehicle.split("/")[5]-1]}
+                    onPress={ ()=>{handleNavigationToVehiclesDetailsPage(vehiclesList[vehicle.split("/")[5]-1])}}>
+                        <Text style={styles.content} >
+                            {'> '}
+                            {vehiclesList[vehicle.split("/")[5]-1] 
+                                ? vehiclesList[vehicle.split("/")[5]-1].name 
+                                : 'Loading...' }
+                        </Text>
                     </TouchableOpacity>
                     
                 ))}
 
                 <Text style={styles.title}>{'Species: '}</Text>
                 {movie.species.map((specie) => (
-                    <TouchableOpacity style={styles.button} key={movie.species.id} onPress={ ()=>{handleNavigationToSpeciesDetailsPage(specie)}}>
-                        <Text style={styles.content} >{specie}</Text>
+                    <TouchableOpacity style={styles.button} 
+                    key={movie.species.id} 
+                    disabled={!speciesList[specie.split("/")[5]-1]}
+                    onPress={ ()=>{handleNavigationToSpeciesDetailsPage(speciesList[specie.split("/")[5]-1])}}>
+                        <Text style={styles.content} >
+                            {'> '}
+                            {speciesList[specie.split("/")[5]-1] 
+                                ? speciesList[specie.split("/")[5]-1].name 
+                                : 'Loading...' }
+                        </Text>
                     </TouchableOpacity>
                     
                 ))}

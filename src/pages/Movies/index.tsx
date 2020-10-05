@@ -12,16 +12,34 @@ function Movies() {
 
     const navigation = useNavigation();
 
+    async function apiCall(){
+        try{
+            await api.get('https://swapi.dev/api/films').then(response => {
+
+                const movies = response.data.results;
+                setMoviesList(movies);
+                /* moviesList.forEach(element => {
+                    console.log(element.title);
+                }); */
+            });
+        } catch {
+            console.log('API error');
+        }
+    }
+
     const [moviesList, setMoviesList] = useState([]);
     useEffect(() => {
-        api.get('https://swapi.dev/api/films').then(response => {
+        /* api.get('https://swapi.dev/api/films').then(response => {
 
             const movies = response.data.results;
             setMoviesList(movies);
-            /* moviesList.forEach(element => {
+
+            moviesList.forEach(element => {
                 console.log(element.title);
-            }); */
-        })
+            });
+        }) */
+
+        apiCall()
     }, []);
 
     function handleNavigationToMovieDetailsPage(item){
