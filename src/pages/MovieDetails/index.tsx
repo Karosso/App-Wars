@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
 
 import styles from './styles';
@@ -10,6 +11,7 @@ interface ItemProps {
 }
 
 function MovieDetails ({ route }) {
+    const navigation = useNavigation();
 
     const movie = route.params;
 
@@ -124,8 +126,6 @@ function MovieDetails ({ route }) {
         }
     }
 
-
-
     useEffect(() => {
         var charactersListTemp = [];
         var planetsListTemp = [];
@@ -144,27 +144,32 @@ function MovieDetails ({ route }) {
 
     function handleNavigationToCharacterDetailsPage(item){
         console.log(item.name);
+        navigation.navigate('CharacterDetails', item);
     }
-
-    
 
     function handleNavigationToPlanetDetailsPage(item){
         console.log(item.name);
+        navigation.navigate('PlanetDetails', item);
     }
-
 
     function handleNavigationToStarshipsDetailsPage(item){
-        console.log(item.name);
-    }
+        console.log(item.url);
 
+        /* starshipsList.map((starship) => {
+            console.log(starship.name);
+        }) */
+
+        navigation.navigate('StarshipDetails', item);
+    }
 
     function handleNavigationToVehiclesDetailsPage(item){
         console.log(item.name);
+        navigation.navigate('VehicleDetails', item);
     }
-
 
     function handleNavigationToSpeciesDetailsPage(item){
         console.log(item.name);
+        navigation.navigate('SpecieDetails', item);
     }
 
     return (

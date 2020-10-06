@@ -18,9 +18,6 @@ function Movies() {
 
                 const movies = response.data.results;
                 setMoviesList(movies);
-                /* moviesList.forEach(element => {
-                    console.log(element.title);
-                }); */
             });
         } catch {
             console.log('API error');
